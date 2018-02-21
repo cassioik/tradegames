@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html 
+	layout:decorator="layouts/main">
+<head>
+<title>Trade Games - Lista de Anúncios</title>
+</head>
+<body>
+	<div layout:fragment="content">
+	
+		<h2>Meus Anúncios</h2>
+		
+		<div th:if="${message}" class="alert alert-success" role="alert">
+			<p th:text="${message}">success message</p>
+		</div>
+
+		<a class="btn btn-primary" th:href="@{/ad/add/mine}">Adicionar</a>
+		
+		<hr />
+
+		<table class="table table-striped" id="list_table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Jogo</th>
+					<th>Descrição</th>
+					<th>Tipo</th>
+					<th>Usuário</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="ad : ${ads}">
+					<td th:text="${ad.id}">id</td>
+					<td th:text="${ad.game.name}">nome</td>
+					<td th:text="${ad.description}">descrição</td>
+					<td th:switch="${ad.type}"><label th:case="1">Procura</label><label th:case="2">Oferta</label></td>
+					<td th:text="${ad.user.fullName}">usuário</td>
+					<td>
+						<a class="btn btn-sm btn-info" href="#" th:href="@{/ad/view/mine/} + ${ad.id}"><span class="glyphicon glyphicon-search"></span></a>
+						<a class="btn btn-sm btn-warning" href="#" th:href="@{/ad/edit/mine/} + ${ad.id}"><span class="glyphicon glyphicon-pencil"></span></a>
+						<a class="btn btn-sm btn-danger" href="#" th:href="@{/ad/delete/mine/} + ${ad.id}" onclick="return confirm('Deseja realmente excluir esse anúncio?')"><span class="glyphicon glyphicon-trash"></span></a>	
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<p th:if="${ads.size() == 0}">
+			<div class="alert alert-warning" role="alert">Nenhum anúncio encontrado.</div>
+		</p>
+
+		
+	</div>
+</body>
+</html>

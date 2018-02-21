@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html 
+	layout:decorator="layouts/main">
+<head>
+<title>Trade Games - Lista de Usuário</title>
+</head>
+<body>
+	<div layout:fragment="content">
+	
+		<h2>Usuários</h2>
+		
+		<div th:if="${message}" class="alert alert-success" role="alert">
+			<p th:text="${message}">success message</p>
+		</div>
+		
+		<a class="btn btn-primary" th:href="@{/user/add}">Adicionar</a>
+		
+		<hr />
+		
+		<table class="table table-striped" id="list_table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nome completo</th>
+					<th>E-mail</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user : ${users}">
+					<td th:text="${user.id}">id</td>
+					<td th:text="${user.fullName}">nome</td>
+					<td th:text="${user.email}">email</td>
+					<td>
+						<a class="btn btn-sm btn-info" href="#" th:href="@{/user/view/} + ${user.id}"><span class="glyphicon glyphicon-search"></span></a>
+						<a class="btn btn-sm btn-warning" href="#" th:href="@{/user/edit/} + ${user.id}"><span class="glyphicon glyphicon-pencil"></span></a>
+						<a class="btn btn-sm btn-danger" href="#" th:href="@{/user/delete/} + ${user.id}"><span class="glyphicon glyphicon-trash"></span></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		
+		
+		<p th:if="${users.size() == 0}">
+			<div class="alert alert-warning" role="alert">Nenhum usuário encontrado.</div>
+		</p>
+		
+	</div>
+</body>
+</html>

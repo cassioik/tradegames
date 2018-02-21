@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html 
+	layout:decorator="layouts/main">
+<head>
+<title>Trade Games - Inserir Usuário</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		
+		<h2>Usuário <span th:text="*{id}">Novo</span></h2>
+	
+		<form class="form-horizontal" th:object="${user}" th:action="@{/user/save}" method="post">
+			<input type="hidden" th:field="*{id}" />
+		    <div class="form-group">
+				<label class="col-sm-2 control-label">Nome completo: </label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" th:field="*{fullName}" required="true"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">E-mail: </label>
+				<div class="col-md-10">
+					<input type="email" class="form-control" th:field="*{email}" required="true"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Senha: </label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" th:field="*{password}" required="true"/>
+				</div>
+			</div>
+			<div class="form-group">
+		    	<label class="col-sm-2 control-label">Tipo <span class="required">*</span></label>
+		    	<div class="col-md-10">
+					<select class="form-control" th:field="*{roles}" required="true">
+						<option value="">Selecione o tipo</option>
+						<option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.role}">Role</option>
+					</select>
+		    	</div>
+		  	</div>
+			<button type="submit" class="btn btn-success">Salvar</button>
+			<a th:href="@{/user/list/}" class="btn btn-warning">Voltar</a>
+		</form>
+	</div>
+</body>
+</html>

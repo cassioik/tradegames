@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html 
+	layout:decorator="layouts/main">
+<head>
+<title>Trade Games - Inserir Jogo</title>
+</head>
+<body>
+	<div layout:fragment="content">
+	
+		<h2>Jogo <span th:text="*{id}">Novo</span></h2>
+		
+		<form class="form-horizontal" th:object="${game}" th:action="@{/game/save}" method="post">
+			<input type="hidden" th:field="*{id}" />
+		    <div class="form-group">
+				<label class="col-sm-2 control-label">Nome: </label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" th:field="*{name}" required="true"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Descrição: </label>
+				<div class="col-md-10">
+					<textarea class="form-control" th:field="*{description}" required="true"></textarea>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-success">Salvar</button>
+			<a th:href="@{/game/list/}" class="btn btn-warning">Voltar</a>
+		</form>
+	</div>
+</body>
+</html>

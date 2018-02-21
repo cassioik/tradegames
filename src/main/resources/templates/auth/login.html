@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" 
+	layout:decorator="layouts/main">
+<head>
+	<title>Trade Games - Login</title>
+	<link rel="stylesheet" href="../static/css/signin.css" th:href="@{/css/signin.css}"/>
+</head>
+<body>
+		
+	<div layout:fragment="content">
+		
+		<form name="f" th:action="@{/login}" method="post" class="form-signin">
+		    <h2 class="form-signin-heading">Efetue o Login</h2>
+            <div th:if="${param.error}" class="alert alert-danger">    
+                Usuario e senha invalidos.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success"> 
+                Logout efetuado com sucesso.
+            </div>		    
+		    <label for="email" class="sr-only">Email</label>
+		    <input type="text" id="email" name="email" class="form-control" placeholder="Endereço de Email" required="true" autofocus="true" />
+		    <label for="password" class="sr-only">Senha</label>
+		    <input type="password" id="password" name="password" class="form-control" placeholder="Senha" required="true" />
+		    <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+		</form>
+		
+	</div>
+		
+</body>
+</html>

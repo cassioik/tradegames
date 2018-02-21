@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Trade Games</title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" />
+		
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />	
+	<link href='https://fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css' />
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" />	
+	
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+
+	<div class="container">
+  		<form id="frmlogout" th:action="@{/logout}" method="post" class="form-inline">
+		<nav class="navbar navbar-default">
+		    <div class="container-fluid">
+		        <div class="navbar-header">
+		            <a class="navbar-brand" href="/">tradegames.net</a>
+		        </div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				    <ul class="nav navbar-nav">
+				    
+				        <li class=""><a href="/">Home</a></li>
+				        <li class=""><a href="/public/search">Pesquisar Anúncio</a></li>
+				        <li class="" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a href="/ad/list/mine">Meus Anúncios</a></li>
+				        
+				        <li class="dropdown" th:class="${controllerName == 'AdminGames'} ? 'dropdown active' : 'dropdown'" sec:authorize="hasRole('ROLE_ADMIN')">
+				            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+				            <ul class="dropdown-menu">
+				                <li><a href="/ad/list">Anuncios</a></li>
+				                <li><a href="/game/list">Jogos</a></li>
+				                <li><a href="/user/list">Usuários</a></li>				                
+				            </ul>
+				        </li>
+				        
+				    </ul>
+				    <ul class="nav navbar-nav navbar-right">
+				    	<!-- 
+			            Bem-vindo(a) <span sec:authentication="name">Convidado</span>
+				    	<form sec:authorize="isAuthenticated()" id="frmlogout" th:action="@{/logout}" method="post" class="form-inline">
+				    		| <a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Sair</a>
+				    	</form>
+				    	-->
+				    	<li class="" sec:authorize="isAnonymous()"><a href="/login">Entrar</a></li>
+				    	<li class="" sec:authorize="isAnonymous()"><a href="/public/signup">Registrar-se</a></li>
+				    	<li class="dropdown" sec:authorize="isAuthenticated()">
+				            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span sec:authentication="name">Convidado</span><span class="caret"></span></a>
+				            <ul class="dropdown-menu">
+				                <li><a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Sair</a></li>			                
+				            </ul>
+				        </li>
+				        
+				    </ul>
+				</div>
+		    </div>
+		</nav>
+		</form>
+		
+		<div layout:fragment="content">
+		</div>
+	
+	</div>
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $('#list_table').DataTable( {
+		    	language: {
+		    	    "sEmptyTable": "Nenhum registro encontrado",
+		    	    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+		    	    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+		    	    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+		    	    "sInfoPostFix": "",
+		    	    "sInfoThousands": ".",
+		    	    "sLengthMenu": "_MENU_ resultados por página",
+		    	    "sLoadingRecords": "Carregando...",
+		    	    "sProcessing": "Processando...",
+		    	    "sZeroRecords": "Nenhum registro encontrado",
+		    	    "sSearch": "Pesquisar",
+		    	    "oPaginate": {
+		    	        "sNext": "Próximo",
+		    	        "sPrevious": "Anterior",
+		    	        "sFirst": "Primeiro",
+		    	        "sLast": "Último"
+		    	    },
+		    	    "oAria": {
+		    	        "sSortAscending": ": Ordenar colunas de forma ascendente",
+		    	        "sSortDescending": ": Ordenar colunas de forma descendente"
+		    	    }
+		    	}		
+		    });
+		});
+	</script>
+
+</body>
+</html>

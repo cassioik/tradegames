@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html 
+	layout:decorator="layouts/main">
+<head>
+<title>Trade Games - Anúncio</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h2>Anúncio:</h2>
+
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Id: </label>
+				<div class="col-md-10">
+					<p class="form-control-static" th:text="${ad.id}">id</p>
+				</div>
+			</div>
+			<div class="form-group">
+		    	<label class="col-sm-2 control-label">Jogo:</label>
+		    	<div class="col-md-10">
+		    		<p class="form-control-static" th:text="${ad.game.name}">jogo</p>
+		    	</div>
+		  	</div>
+			<div class="form-group">
+		    	<label class="col-sm-2 control-label">Descrição:</label>
+		    	<div class="col-md-10">
+		    		<p class="form-control-static" th:text="${ad.description}">descrição</p>
+		    	</div>
+		  	</div>
+		  	<div class="form-group">
+		    	<label class="col-sm-2 control-label">Tipo:</label>
+		    	<div class="col-md-10" th:switch="${ad.type}">
+		    		<p class="form-control-static" th:case="1">Procura</p>
+		    		<p class="form-control-static" th:case="2">Oferta</p>
+		    	</div>
+		  	</div>
+		  	<div class="form-group">
+		    	<label class="col-sm-2 control-label">Usuário:</label>
+		    	<div class="col-md-10">
+		    		<p class="form-control-static" th:text="${ad.user.fullName}">nome</p>
+		    	</div>
+		  	</div>
+		</form>
+		
+		<a th:href="@{/ad/list/mine/}" class="btn btn-warning">Voltar</a>
+	</div>
+</body>
+</html>
