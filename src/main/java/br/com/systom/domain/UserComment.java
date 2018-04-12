@@ -10,20 +10,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table( name="ads" )
-public class Ad {
+@Table( name="comments" )
+public class UserComment {
 	@Id
 	@GeneratedValue
 	private Long id;
 	
-	private String description;
-	private int type;
-	private Double price;
+	private String comment;
 	private LocalDateTime created_at;
-
+	private LocalDateTime updated_at;
+	
 	@ManyToOne
-	@JoinColumn(name = "games_id")
-	private Game game;
+	@JoinColumn(name = "ads_id")
+	private Ad ad;
 	
 	@ManyToOne
 	@JoinColumn(name = "users_id")
@@ -37,28 +36,12 @@ public class Ad {
 		this.id = id;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-	
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public LocalDateTime getCreated_at() {
@@ -69,12 +52,20 @@ public class Ad {
 		this.created_at = created_at;
 	}
 
-	public Game getGame() {
-		return game;
+	public LocalDateTime getUpdated_at() {
+		return updated_at;
 	}
 
-	public void setGame(Game game) {
-		this.game = game;
+	public void setUpdated_at(LocalDateTime updated_at) {
+		this.updated_at = updated_at;
+	}
+
+	public Ad getAd() {
+		return ad;
+	}
+
+	public void setAd(Ad ad) {
+		this.ad = ad;
 	}
 
 	public User getUser() {
@@ -87,7 +78,7 @@ public class Ad {
 
 	@Override
 	public String toString() {
-		return "Ad [id=" + id + ", description=" + description + ", type=" + type + ", price=" + price + ", created_at="
-				+ created_at + ", game=" + game + ", user=" + user + "]";
+		return "UserComment [id=" + id + ", comment=" + comment + ", created_at=" + created_at + ", updated_at="
+				+ updated_at + ", ad=" + ad + ", user=" + user + "]";
 	}
 }

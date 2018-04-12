@@ -1,6 +1,7 @@
 package br.com.systom.controller;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -13,7 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.systom.domain.Ad;
 import br.com.systom.domain.User;
+import br.com.systom.domain.UserComment;
 import br.com.systom.repository.AdRepository;
+import br.com.systom.repository.CommentRepository;
 import br.com.systom.repository.GameRepository;
 import br.com.systom.repository.UserRepository;
 
@@ -24,12 +27,14 @@ public class AdController {
 	private AdRepository adRepository;
 	private GameRepository gameRepository;
 	private UserRepository userRepository;
+	private CommentRepository commentRepository;
 	
 	@Autowired
-	public AdController(AdRepository adRepository, GameRepository gameRepository, UserRepository userRepository){
+	public AdController(AdRepository adRepository, GameRepository gameRepository, UserRepository userRepository, CommentRepository commentRepository){
 		this.adRepository = adRepository;
 		this.gameRepository = gameRepository;
 		this.userRepository = userRepository;
+		this.commentRepository = commentRepository;
 	}
 	
 	@RequestMapping("/list")
@@ -48,6 +53,8 @@ public class AdController {
 	
 	@RequestMapping( value = "/save", method = RequestMethod.POST )
 	public String save(Ad ad) {
+		ad.setCreated_at(LocalDateTime.now());
+		System.out.println(ad.toString());
 		Ad savedAd = adRepository.save(ad);
 		return "redirect:/ad/view/" + savedAd.getId();
 	}
@@ -55,6 +62,9 @@ public class AdController {
 	@RequestMapping("/view/{id}")
 	public String view(@PathVariable Long id, Model model) {
 		model.addAttribute("ad", adRepository.findOne(id));
+		Ad ad = adRepository.findOne(id);
+		model.addAttribute("comments", commentRepository.findByAdOrderByIdDesc(ad));
+		model.addAttribute("user_comment", new UserComment());
 		return "ad/view";
 	}
 	
@@ -133,5 +143,16 @@ public class AdController {
 			redirectAttrs.addFlashAttribute("message", "Esse anúncio não pertence a você!");
 			return "redirect:/ad/list/mine";
 		}
+	}
+	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	@RequestMapping( value = "/save/comment", method = RequestMethod.POST )
+	public String save_comment(UserComment user_comment, Principal principal) {
+		User user = userRepository.findByEmail(principal.getName());
+		user_comment.setUser(user);
+		user_comment.setCreated_at(LocalDateTime.now());
+		System.out.println(user_comment.toString());
+		commentRepository.save(user_comment);
+		return "redirect:/ad/view/" + user_comment.getAd().getId();
 	}
 }

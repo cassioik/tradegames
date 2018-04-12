@@ -37,6 +37,7 @@
 				<tr>
 					<th>Id</th>
 					<th>Jogo</th>
+					<th>Valor</th>
 					<th>Descrição</th>
 					<th>Tipo</th>
 					<th>Usuário</th>
@@ -46,6 +47,7 @@
 				<tr th:each="ad : ${ads}">
 					<td th:text="${ad.id}">id</td>
 					<td th:text="${ad.game.name}">nome</td>
+					<td th:text="${ad.price}">valor</td>
 					<td th:text="${ad.description}">descrição</td>
 					<td th:switch="${ad.type}"><label th:case="1">Procura</label><label th:case="2">Oferta</label></td>
 					<td th:text="${ad.user.fullName}">usuário</td>

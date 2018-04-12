@@ -21,6 +21,12 @@
 		    		<p class="form-control-static" th:text="${ad.game.name}">jogo</p>
 		    	</div>
 		  	</div>
+		  	<div class="form-group">
+		    	<label class="col-sm-2 control-label">Valor:</label>
+		    	<div class="col-md-10">
+		    		<p class="form-control-static" th:text="${ad.price}">valor</p>
+		    	</div>
+		  	</div>
 			<div class="form-group">
 		    	<label class="col-sm-2 control-label">Descrição:</label>
 		    	<div class="col-md-10">
@@ -41,6 +47,29 @@
 		    	</div>
 		  	</div>
 		</form>
+		
+		<hr/>
+		
+		<h3>Comentários:</h3>
+		
+		<form class="form-horizontal" th:object="${user_comment}" th:action="@{/ad/save/comment}" method="post">
+			<input type="hidden" th:value="${ad.id}" id="ad" name="ad"/>
+			<div class="form-group">
+				<div class="col-md-12">
+					<textarea class="form-control" th:field="*{comment}" required="true"></textarea>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-success">Enviar</button>
+		</form>
+		
+		<div class="col-md-12">
+			<div class="well" th:each="c : ${comments}">
+				<p th:text="${c.user.fullName}+' comentou em: '+${c.created_at}"></p>
+				<p th:text="${c.comment}"></p>
+			</div>
+		</div>
+		
+		<hr/>
 		
 		<a th:href="@{/ad/list/}" class="btn btn-warning">Voltar</a>
 	</div>
