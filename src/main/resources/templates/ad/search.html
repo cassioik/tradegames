@@ -41,6 +41,7 @@
 					<th>Descrição</th>
 					<th>Tipo</th>
 					<th>Usuário</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -51,6 +52,9 @@
 					<td th:text="${ad.description}">descrição</td>
 					<td th:switch="${ad.type}"><label th:case="1">Procura</label><label th:case="2">Oferta</label></td>
 					<td th:text="${ad.user.fullName}">usuário</td>
+					<td>
+						<a class="btn btn-sm btn-info" href="#" th:href="@{/public/ad/view/} + ${ad.id}"><span class="glyphicon glyphicon-search"></span></a>	
+					</td>
 				</tr>
 			</tbody>
 		</table>

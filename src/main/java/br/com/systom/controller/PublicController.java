@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -14,7 +15,9 @@ import br.com.systom.domain.Ad;
 import br.com.systom.domain.Game;
 import br.com.systom.domain.Role;
 import br.com.systom.domain.User;
+import br.com.systom.domain.UserComment;
 import br.com.systom.repository.AdRepository;
+import br.com.systom.repository.CommentRepository;
 import br.com.systom.repository.GameRepository;
 import br.com.systom.repository.RoleRepository;
 import br.com.systom.repository.UserRepository;
@@ -26,13 +29,15 @@ public class PublicController {
 	private RoleRepository roleRepository;
 	private AdRepository adRepository;
 	private GameRepository gameRepository;
+	private CommentRepository commentRepository;
 	
 	@Autowired
-	public PublicController(UserRepository userRepository, RoleRepository roleRepository, AdRepository adRepository, GameRepository gameRepository){
+	public PublicController(UserRepository userRepository, RoleRepository roleRepository, AdRepository adRepository, GameRepository gameRepository, CommentRepository commentRepository){
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.adRepository = adRepository;
 		this.gameRepository = gameRepository;
+		this.commentRepository = commentRepository;
 	}
 	
 	@RequestMapping("/signup")
@@ -68,4 +73,14 @@ public class PublicController {
 		model.addAttribute("games", gameRepository.findAll());
 		return "ad/search";
 	}
+	
+	@RequestMapping("/ad/view/{id}")
+	public String view(@PathVariable Long id, Model model) {
+		model.addAttribute("ad", adRepository.findOne(id));
+		Ad ad = adRepository.findOne(id);
+		model.addAttribute("comments", commentRepository.findByAdOrderByIdDesc(ad));
+		model.addAttribute("user_comment", new UserComment());
+		return "ad/view";
+	}
+	
 }

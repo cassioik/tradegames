@@ -59,14 +59,14 @@ public class AdController {
 		return "redirect:/ad/view/" + savedAd.getId();
 	}
 	
-	@RequestMapping("/view/{id}")
-	public String view(@PathVariable Long id, Model model) {
-		model.addAttribute("ad", adRepository.findOne(id));
-		Ad ad = adRepository.findOne(id);
-		model.addAttribute("comments", commentRepository.findByAdOrderByIdDesc(ad));
-		model.addAttribute("user_comment", new UserComment());
-		return "ad/view";
-	}
+//	@RequestMapping("/view/{id}")
+//	public String view(@PathVariable Long id, Model model) {
+//		model.addAttribute("ad", adRepository.findOne(id));
+//		Ad ad = adRepository.findOne(id);
+//		model.addAttribute("comments", commentRepository.findByAdOrderByIdDesc(ad));
+//		model.addAttribute("user_comment", new UserComment());
+//		return "ad/view";
+//	}
 	
 	@RequestMapping("/edit/{id}")
 	public String edit(@PathVariable Long id, Model model){
@@ -112,6 +112,9 @@ public class AdController {
 	@RequestMapping("/view/mine/{id}")
 	public String view_mine(@PathVariable Long id, Model model) {
 		model.addAttribute("ad", adRepository.findOne(id));
+		Ad ad = adRepository.findOne(id);
+		model.addAttribute("comments", commentRepository.findByAdOrderByIdDesc(ad));
+		model.addAttribute("user_comment", new UserComment());
 		return "ad/view_mine";
 	}
 	
@@ -153,6 +156,6 @@ public class AdController {
 		user_comment.setCreated_at(LocalDateTime.now());
 		System.out.println(user_comment.toString());
 		commentRepository.save(user_comment);
-		return "redirect:/ad/view/" + user_comment.getAd().getId();
+		return "redirect:/public/ad/view/" + user_comment.getAd().getId();
 	}
 }

@@ -18,7 +18,7 @@
 		
 	<div class="row">
 		<div class="col-sm-4" th:each="ad : ${ads}">
-			<div class="panel" th:classappend="${ad.type} == 1 ? panel-warning : panel-info">
+			<div class="panel sombra" th:classappend="${ad.type} == 1 ? panel-warning : panel-info">
 				<div class="panel-heading">
 					<h3 class="panel-title" th:text="${ad.game.name}">Jogo</h3>
 				</div>
@@ -28,6 +28,7 @@
 					<p>Descrição: <label th:text="${ad.description}">descrição</label></p>
 					<p th:switch="${ad.type}">Tipo: <label th:case="1">Procura</label><label th:case="2">Oferta</label></p>
 					<p>Usuário: <label th:text="${ad.user.fullName}">usuário</label></p>
+					<a class="btn btn-success btn-block" th:href="'/public/ad/view/'+${ad.id}">Visualizar</a>
 				</div>
 			</div>
 		</div>

@@ -48,7 +48,30 @@
 		  	</div>
 		</form>
 		
-		<a th:href="@{/ad/list/mine/}" class="btn btn-warning">Voltar</a>
+		<hr/>
+		
+		<h3>Comentários:</h3>
+		
+		<form class="form-horizontal" th:object="${user_comment}" th:action="@{/ad/save/comment}" method="post" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+			<input type="hidden" th:value="${ad.id}" id="ad" name="ad"/>
+			<div class="form-group">
+				<div class="col-md-12">
+					<textarea class="form-control" th:field="*{comment}" required="true"></textarea>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-success">Enviar</button>
+		</form>
+		
+		<hr/>
+		
+		<div class="col-md-12">
+			<div class="well" th:each="c : ${comments}">
+				<p><i th:text="${c.user.fullName}+' comentou em '+${#dates.format(new java.util.Date(c.created_at), 'dd/MM/yyyy HH:mm')}"></i></p>
+				<p th:text="${c.comment}"></p>
+			</div>
+		</div>
+		
+		<!-- <a th:href="@{/ad/list/mine/}" class="btn btn-warning">Voltar</a> -->
 	</div>
 </body>
 </html>

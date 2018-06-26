@@ -38,7 +38,7 @@
 					<td th:switch="${ad.type}"><label th:case="1">Procura</label><label th:case="2">Oferta</label></td>
 					<td th:text="${ad.user.fullName}">usuário</td>
 					<td>
-						<a class="btn btn-sm btn-info" href="#" th:href="@{/ad/view/} + ${ad.id}"><span class="glyphicon glyphicon-search"></span></a>
+						<a class="btn btn-sm btn-info" href="#" th:href="@{/public/ad/view/} + ${ad.id}"><span class="glyphicon glyphicon-search"></span></a>
 						<a class="btn btn-sm btn-warning" href="#" th:href="@{/ad/edit/} + ${ad.id}"><span class="glyphicon glyphicon-pencil"></span></a>
 						<a class="btn btn-sm btn-danger" href="#" th:href="@{/ad/delete/} + ${ad.id}" onclick="return confirm('Deseja realmente excluir esse anúncio?')"><span class="glyphicon glyphicon-trash"></span></a>	
 					</td>
