@@ -1,5 +1,6 @@
 package br.com.systom.controller;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.systom.domain.Ad;
 import br.com.systom.domain.Game;
+import br.com.systom.domain.Interested;
 import br.com.systom.domain.Role;
 import br.com.systom.domain.User;
 import br.com.systom.domain.UserComment;
 import br.com.systom.repository.AdRepository;
 import br.com.systom.repository.CommentRepository;
 import br.com.systom.repository.GameRepository;
+import br.com.systom.repository.InterestedRepository;
 import br.com.systom.repository.RoleRepository;
 import br.com.systom.repository.UserRepository;
 
@@ -30,14 +33,16 @@ public class PublicController {
 	private AdRepository adRepository;
 	private GameRepository gameRepository;
 	private CommentRepository commentRepository;
+	private InterestedRepository interestedRepository;
 	
 	@Autowired
-	public PublicController(UserRepository userRepository, RoleRepository roleRepository, AdRepository adRepository, GameRepository gameRepository, CommentRepository commentRepository){
+	public PublicController(UserRepository userRepository, RoleRepository roleRepository, AdRepository adRepository, GameRepository gameRepository, CommentRepository commentRepository, InterestedRepository interestedRepository){
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.adRepository = adRepository;
 		this.gameRepository = gameRepository;
 		this.commentRepository = commentRepository;
+		this.interestedRepository = interestedRepository;
 	}
 	
 	@RequestMapping("/signup")
@@ -75,10 +80,19 @@ public class PublicController {
 	}
 	
 	@RequestMapping("/ad/view/{id}")
-	public String view(@PathVariable Long id, Model model) {
+	public String view(@PathVariable Long id, Model model, Principal principal) {
 		model.addAttribute("ad", adRepository.findOne(id));
 		Ad ad = adRepository.findOne(id);
 		model.addAttribute("comments", commentRepository.findByAdOrderByIdDesc(ad));
+		
+		try {
+			User user = userRepository.findByEmail(principal.getName());
+			model.addAttribute("interested", interestedRepository.findByAdAndUser(ad, user));
+			model.addAttribute("user_interested", new Interested());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		model.addAttribute("user_comment", new UserComment());
 		return "ad/view";
 	}

@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.systom.domain.Ad;
+import br.com.systom.domain.Interested;
 import br.com.systom.domain.User;
 import br.com.systom.domain.UserComment;
 import br.com.systom.repository.AdRepository;
 import br.com.systom.repository.CommentRepository;
 import br.com.systom.repository.GameRepository;
+import br.com.systom.repository.InterestedRepository;
 import br.com.systom.repository.UserRepository;
 
 @Controller
@@ -28,13 +30,15 @@ public class AdController {
 	private GameRepository gameRepository;
 	private UserRepository userRepository;
 	private CommentRepository commentRepository;
+	private InterestedRepository interestedRepository;
 	
 	@Autowired
-	public AdController(AdRepository adRepository, GameRepository gameRepository, UserRepository userRepository, CommentRepository commentRepository){
+	public AdController(AdRepository adRepository, GameRepository gameRepository, UserRepository userRepository, CommentRepository commentRepository, InterestedRepository interestedRepository){
 		this.adRepository = adRepository;
 		this.gameRepository = gameRepository;
 		this.userRepository = userRepository;
 		this.commentRepository = commentRepository;
+		this.interestedRepository = interestedRepository;
 	}
 	
 	@RequestMapping("/list")
@@ -157,5 +161,18 @@ public class AdController {
 		System.out.println(user_comment.toString());
 		commentRepository.save(user_comment);
 		return "redirect:/public/ad/view/" + user_comment.getAd().getId();
+	}
+	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	@RequestMapping( value = "/save/interest", method = RequestMethod.POST )
+	public String save_interest(Interested interested, Principal principal) {
+		User user = userRepository.findByEmail(principal.getName());
+		interested.setUser(user);
+		if(interested.getId() > 0) {
+			interestedRepository.delete(interested);
+		}else{
+			interestedRepository.save(interested);
+		}
+		return "redirect:/public/ad/view/" + interested.getAd().getId();
 	}
 }
