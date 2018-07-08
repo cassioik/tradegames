@@ -7,20 +7,25 @@
 <body>
 	<div layout:fragment="content">
 	
-		<h2>Jogo <span th:text="*{id}">Novo</span></h2>
+		<h2>Novo jogo</h2>
 		
-		<form class="form-horizontal" th:object="${game}" th:action="@{/game/save}" method="post">
-			<input type="hidden" th:field="*{id}" />
+		<form class="form-horizontal" th:action="@{/game/save}" method="post" enctype="multipart/form-data">
 		    <div class="form-group">
 				<label class="col-sm-2 control-label">Nome: </label>
 				<div class="col-md-10">
-					<input type="text" class="form-control" th:field="*{name}" required="true"/>
+					<input type="text" class="form-control" name="name" id="name" required="true"/>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Descrição: </label>
 				<div class="col-md-10">
-					<textarea class="form-control" th:field="*{description}" required="true"></textarea>
+					<textarea class="form-control" name="description" id="description" required="true"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Imagem: </label>
+				<div class="col-md-10">
+					<input type="file" class="form-control" name="image" id="image" />
 				</div>
 			</div>
 			<button type="submit" class="btn btn-success">Salvar</button>

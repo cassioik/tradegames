@@ -1,5 +1,9 @@
 package br.com.systom.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -7,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.systom.domain.Game;
@@ -43,15 +49,54 @@ public class GameController {
 	}
 	
 	@RequestMapping( value = "/save", method = RequestMethod.POST )
-	public String save(Game game) {
+	public String save(@RequestParam("image") MultipartFile image, @RequestParam("name") String name, @RequestParam("description") String description) {
+		Game game = new Game();
+		game.setName(name);
+		game.setDescription(description);
+		game.setImage(image.getOriginalFilename());
 		Game savedGame = gameRepository.save(game);
+
+        try {
+            // Get the file and save it somewhere
+            byte[] bytes = image.getBytes();
+            Path path = Paths.get("src/main/webapp/upload/" + image.getOriginalFilename());
+            Files.write(path, bytes);
+
+            System.out.println("Foi");
+        } catch (Exception e) {
+        	System.out.println("Erro");
+        }
+		
+		return "redirect:/game/view/" + savedGame.getId();
+	}
+	
+	@RequestMapping( value = "/save_edit", method = RequestMethod.POST )
+	public String save_edit(@RequestParam("image") MultipartFile image, @RequestParam("name") String name, @RequestParam("description") String description, @RequestParam("id") Long id) {
+		Game game = new Game();
+		game.setId(id);
+		game.setName(name);
+		game.setDescription(description);
+		game.setImage(image.getOriginalFilename());
+		Game savedGame = gameRepository.save(game);
+
+        try {
+            // Get the file and save it somewhere
+            byte[] bytes = image.getBytes();
+            Path path = Paths.get("src/main/webapp/upload/" + image.getOriginalFilename());
+            Files.write(path, bytes);
+
+            System.out.println("Foi");
+        } catch (Exception e) {
+        	System.out.println("Erro");
+        }
+		
 		return "redirect:/game/view/" + savedGame.getId();
 	}
 	
 	@RequestMapping("/edit/{id}")
 	public String edit(@PathVariable Long id, Model model){
 		model.addAttribute("game", gameRepository.findOne(id));
-		return "game/add";		
+		return "game/edit";		
 	}
 	
 	@RequestMapping("/delete/{id}")

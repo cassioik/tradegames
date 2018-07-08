@@ -6,7 +6,12 @@
 
 <style>
 	.panel-body {
-		height: 250px; 
+		height: 450px; 
+	}
+	.center-block {
+	  	display: block;
+	  	margin-right: auto;
+	  	margin-left: auto;
 	}
 </style>
 
@@ -23,7 +28,8 @@
 					<h3 class="panel-title" th:text="${ad.game.name}">Jogo</h3>
 				</div>
 				<div class="panel-body">
-					<p>ID: <label th:text="${ad.id}">id</label></p>
+					<img alt="" class="img-thumbnail center-block" th:src="${'../../../upload/'+ad.game.image}"/>
+					<!-- <p>ID: <label th:text="${ad.id}">id</label></p> -->
 					<p>Jogo: <label th:text="${ad.game.name}">nome</label></p>
 					<p>Descrição: <label th:text="${ad.description}">descrição</label></p>
 					<p th:switch="${ad.type}">Tipo: <label th:case="1">Procura</label><label th:case="2">Oferta</label></p>

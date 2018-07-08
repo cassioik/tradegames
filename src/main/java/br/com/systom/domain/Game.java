@@ -13,6 +13,7 @@ public class Game {
 	private Long id;
 	private String name;
 	private String description;
+	private String image;
 	
 	public Long getId() {
 		return id;
@@ -32,8 +33,14 @@ public class Game {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	@Override
 	public String toString() {
-		return "Game [id=" + id + ", name=" + name + ", description=" + description + "]";
+		return "Game [id=" + id + ", name=" + name + ", description=" + description + ", image=" + image + "]";
 	}
 }

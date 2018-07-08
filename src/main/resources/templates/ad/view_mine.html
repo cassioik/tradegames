@@ -7,7 +7,8 @@
 <body>
 	<div layout:fragment="content">
 		<h2>Anúncio:</h2>
-
+		
+		<!-- 
 		<form class="form-horizontal">
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Id: </label>
@@ -47,7 +48,68 @@
 		    	</div>
 		  	</div>
 		</form>
-		
+	 	-->
+	 	
+	 	<div class="row">
+			<div class="col-sm-3">
+				<img alt="" class="img-thumbnail" th:src="${'../../../upload/'+ad.game.image}" width="300" height="300"/>
+			</div>
+			<div class="col-sm-8">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Código: </label>
+						<div class="col-md-10">
+							<p class="form-control-static" th:text="${ad.id}">id</p>
+						</div>
+					</div>
+					<div class="form-group">
+				    	<label class="col-sm-2 control-label">Jogo:</label>
+				    	<div class="col-md-10">
+				    		<p class="form-control-static" th:text="${ad.game.name}">jogo</p>
+				    	</div>
+				  	</div>
+				  	<div class="form-group">
+				    	<label class="col-sm-2 control-label">Valor:</label>
+				    	<div class="col-md-10">
+				    		<p class="form-control-static" th:text="${ad.price}">valor</p>
+				    	</div>
+				  	</div>
+				  	<div class="form-group">
+				    	<label class="col-sm-2 control-label">Tipo:</label>
+				    	<div class="col-md-10" th:switch="${ad.type}">
+				    		<p class="form-control-static" th:case="1">Procura</p>
+				    		<p class="form-control-static" th:case="2">Oferta</p>
+				    	</div>
+				  	</div>
+				  	<div class="form-group">
+				    	<label class="col-sm-2 control-label">Usuário:</label>
+				    	<div class="col-md-10">
+				    		<p class="form-control-static" th:text="${ad.user.fullName}">nome</p>
+				    	</div>
+				  	</div>
+				  	<div class="form-group">
+				    	<label class="col-sm-2 control-label">Descrição:</label>
+				    	<div class="col-md-10">
+				    		<p class="form-control-static" th:text="${ad.description}">descrição</p>
+				    	</div>
+				  	</div>
+				</form>
+			</div>
+			<div class="col-sm-1" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+				<form class="form-horizontal" th:object="${user_interested}" th:action="@{/ad/save/interest}" method="post">
+					<input type="hidden" th:value="${ad.id}" id="ad" name="ad"/>
+					<div th:if="${interested}">
+						<input type="hidden" th:value="${interested.id}" id="id" name="id"/>
+						<button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-star"></span></button>
+					</div>
+					<div th:unless="${interested}">
+						<input type="hidden" value="0" id="id" name="id"/>
+						<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-star-empty"></span></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	 		
 		<hr/>
 		
 		<h3>Comentários:</h3>

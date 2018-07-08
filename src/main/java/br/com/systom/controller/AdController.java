@@ -60,7 +60,7 @@ public class AdController {
 		ad.setCreated_at(LocalDateTime.now());
 		System.out.println(ad.toString());
 		Ad savedAd = adRepository.save(ad);
-		return "redirect:/ad/view/" + savedAd.getId();
+		return "redirect:/public/ad/view/" + savedAd.getId();
 	}
 	
 //	@RequestMapping("/view/{id}")
@@ -108,6 +108,7 @@ public class AdController {
 	public String save_mine(Ad ad, Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		ad.setUser(user);
+		ad.setCreated_at(LocalDateTime.now());
 		Ad savedAd = adRepository.save(ad);
 		return "redirect:/ad/view/mine/" + savedAd.getId();
 	}

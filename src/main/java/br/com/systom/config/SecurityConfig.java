@@ -31,6 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		        .antMatchers("/public/**")
 		        .permitAll()
 		        .and()
+		    .authorizeRequests()
+		        .antMatchers("/upload/**")
+		        .permitAll()
+		        .and()
 			.authorizeRequests()
 				//.antMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
@@ -43,5 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout()
 				.logoutSuccessUrl("/login?logout")
 				.permitAll();
+		http.csrf().disable();
 	}
 }
