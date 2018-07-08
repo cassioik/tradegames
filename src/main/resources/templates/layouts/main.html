@@ -45,6 +45,7 @@
 				        <li class=""><a href="/">Home</a></li>
 				        <li class=""><a href="/public/search">Pesquisar Anúncio</a></li>
 				        <li class="" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a href="/ad/list/mine">Meus Anúncios</a></li>
+				        <li class="" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a href="/ad/list/interested">Anúncios Salvos</a></li>
 				        
 				        <li class="dropdown" th:class="${controllerName == 'AdminGames'} ? 'dropdown active' : 'dropdown'" sec:authorize="hasRole('ROLE_ADMIN')">
 				            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>

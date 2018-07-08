@@ -2,6 +2,7 @@ package br.com.systom.controller;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -45,6 +46,14 @@ public class AdController {
 	public String list(Model model) {
 		model.addAttribute("ads", adRepository.findAll());
 		return "ad/list";
+	}
+	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	@RequestMapping("/list/interested")
+	public String list_interested(Model model, Principal principal) {
+		User user = userRepository.findByEmail(principal.getName());
+		model.addAttribute("interesteds", interestedRepository.findByUser(user));
+		return "ad/list_interested";
 	}
 	
 	@RequestMapping("/add")
