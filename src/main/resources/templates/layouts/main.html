@@ -34,6 +34,49 @@
 
 	<div class="container">
   		<form id="frmlogout" th:action="@{/logout}" method="post" class="form-inline">
+  		
+  		<nav class="navbar navbar-default navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="#">Trade games</a>
+	        </div>
+	        <div id="navbar" class="collapse navbar-collapse">
+	          <ul class="nav navbar-nav"> 
+		        <li class=""><a href="/">Home</a></li>
+		        <li class=""><a href="/public/search">Pesquisar Anúncio</a></li>
+		        <li class="" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a href="/ad/list/mine">Meus Anúncios</a></li>
+		        <li class="" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"><a href="/ad/list/interested">Anúncios Salvos</a></li>
+		        
+		        <li class="dropdown" th:class="${controllerName == 'AdminGames'} ? 'dropdown active' : 'dropdown'" sec:authorize="hasRole('ROLE_ADMIN')">
+		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+		            <ul class="dropdown-menu">
+		                <li><a href="/ad/list">Anuncios</a></li>
+		                <li><a href="/game/list">Jogos</a></li>
+		                <li><a href="/user/list">Usuários</a></li>				                
+		            </ul>
+		        </li>
+		    </ul>
+		    <ul class="nav navbar-nav navbar-right">
+		    	<li class="" sec:authorize="isAnonymous()"><a href="/login">Entrar</a></li>
+		    	<li class="" sec:authorize="isAnonymous()"><a href="/public/signup">Registrar-se</a></li>
+		    	<li class="dropdown" sec:authorize="isAuthenticated()">
+		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span sec:authentication="name">Convidado</span><span class="caret"></span></a>
+		            <ul class="dropdown-menu">
+		                <li><a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Sair</a></li>			                
+		            </ul>
+		        </li>
+		    </ul>
+	        </div><!--/.nav-collapse -->
+	      </div>
+	    </nav>
+	    
+  		<!--  
 		<nav class="navbar navbar-default">
 		    <div class="container-fluid">
 		        <div class="navbar-header">
@@ -58,12 +101,6 @@
 				        
 				    </ul>
 				    <ul class="nav navbar-nav navbar-right">
-				    	<!-- 
-			            Bem-vindo(a) <span sec:authentication="name">Convidado</span>
-				    	<form sec:authorize="isAuthenticated()" id="frmlogout" th:action="@{/logout}" method="post" class="form-inline">
-				    		| <a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Sair</a>
-				    	</form>
-				    	-->
 				    	<li class="" sec:authorize="isAnonymous()"><a href="/login">Entrar</a></li>
 				    	<li class="" sec:authorize="isAnonymous()"><a href="/public/signup">Registrar-se</a></li>
 				    	<li class="dropdown" sec:authorize="isAuthenticated()">
@@ -72,11 +109,11 @@
 				                <li><a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Sair</a></li>			                
 				            </ul>
 				        </li>
-				        
 				    </ul>
 				</div>
 		    </div>
 		</nav>
+		-->
 		</form>
 		
 		<div layout:fragment="content">
